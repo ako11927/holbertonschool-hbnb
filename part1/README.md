@@ -153,3 +153,149 @@ HBnBFacade --> PlaceRepository
 HBnBFacade --> ReviewRepository
 HBnBFacade --> AmenityRepository
 
+---
+
+## Task 1: Detailed Class Diagram (Business Logic Layer)
+
+### Objective
+
+The objective of this task is to design a **detailed UML class diagram** for the **Business Logic layer** of the HBnB Evolution application.
+
+This diagram defines the core entities, their attributes, methods, and relationships, and serves as a blueprint for the implementation phase.
+
+---
+
+## Business Logic Layer Overview
+
+The Business Logic layer contains the core models of the application and enforces all business rules.  
+Each entity is uniquely identified by an `id` and includes audit fields for creation and update timestamps.
+
+The main entities are:
+- User
+- Place
+- Review
+- Amenity
+
+---
+
+## Entity Descriptions
+
+### User
+Represents a registered user of the application.
+
+**Attributes:**
+- id
+- first_name
+- last_name
+- email
+- password
+- is_admin
+- created_at
+- updated_at
+
+**Responsibilities:**
+- Own places
+- Write reviews
+
+---
+
+### Place
+Represents a property listed by a user.
+
+**Attributes:**
+- id
+- title
+- description
+- price
+- latitude
+- longitude
+- created_at
+- updated_at
+
+**Responsibilities:**
+- Belongs to a user (owner)
+- Can have multiple amenities
+- Can receive reviews
+
+---
+
+### Review
+Represents a review written by a user for a place.
+
+**Attributes:**
+- id
+- rating
+- comment
+- created_at
+- updated_at
+
+**Responsibilities:**
+- Linked to one user
+- Linked to one place
+
+---
+
+### Amenity
+Represents an amenity that can be associated with places.
+
+**Attributes:**
+- id
+- name
+- description
+- created_at
+- updated_at
+
+**Responsibilities:**
+- Can be linked to multiple places
+
+---
+
+## UML Class Diagram
+
+The following UML class diagram illustrates the entities, their attributes, and their relationships.
+
+```mermaid
+classDiagram
+
+class User {
+    +id
+    +first_name
+    +last_name
+    +email
+    +password
+    +is_admin
+    +created_at
+    +updated_at
+}
+
+class Place {
+    +id
+    +title
+    +description
+    +price
+    +latitude
+    +longitude
+    +created_at
+    +updated_at
+}
+
+class Review {
+    +id
+    +rating
+    +comment
+    +created_at
+    +updated_at
+}
+
+class Amenity {
+    +id
+    +name
+    +description
+    +created_at
+    +updated_at
+}
+
+User "1" --> "0..*" Place : owns
+User "1" --> "0..*" Review : writes
+Place "1" --> "0..*" Review : receives
+Place "0..*" --> "0..*" Amenity : has
