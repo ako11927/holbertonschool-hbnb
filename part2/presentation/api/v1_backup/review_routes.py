@@ -28,6 +28,15 @@ review_model = api.model('Review', {
     'updated_at': fields.String(description='Update timestamp')
 })
 
+    'id': fields.String(description='Review ID'),
+    'place_id': fields.String(description='Place ID'),
+    'text': fields.String(description='Review text'),
+    'rating': fields.Integer(description='Rating (1-5)'),
+    'summary': fields.String(description='Review summary'),
+    'created_at': fields.String(description='Creation timestamp'),
+    'updated_at': fields.String(description='Update timestamp')
+})
+
 facade = HBnBFacade()
 
 @api.route('/')
@@ -80,21 +89,28 @@ class ReviewList(Resource):
 @api.response(404, 'Review not found')
 class ReviewResource(Resource):
     @api.doc('get_review')
-    @api.marshal_with(review_model)
     def get(self, review_id):
         """
-        Retrieve a review by ID.
+        Retrieve a review by ID with user details.
         
         Args:
             review_id: Review identifier
             
         Returns:
-            Review data
+            Review data with user information
         """
         review = facade.review_repository.get(review_id)
         if not review:
             api.abort(404, f'Review {review_id} not found')
-        return review.to_dict(), 200
+        
+        # Get user details
+        user = facade.get_user(review.user_id)
+        
+        # Build response
+        response = review.to_dict()
+        response['user'] = user.to_dict() if user else None
+        
+        return response, 200
 
     @api.doc('update_review')
     @api.expect(update_review_parser)

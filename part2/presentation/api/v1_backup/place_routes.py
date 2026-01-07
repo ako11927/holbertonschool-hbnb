@@ -31,7 +31,7 @@ update_place_parser.add_argument('latitude', type=float, required=False, help='L
 update_place_parser.add_argument('longitude', type=float, required=False, help='Longitude')
 update_place_parser.add_argument('amenity_ids', type=str, action='append', required=False, help='Amenity IDs')
 
-# Response models
+# Simplified response models (no cross-references)
 place_model = api.model('Place', {
     'id': fields.String(description='Place ID'),
     'user_id': fields.String(description='Owner user ID'),
@@ -139,6 +139,7 @@ class PlaceResource(Resource):
         place = facade.get_place(place_id)
         if not place:
             api.abort(404, f'Place {place_id} not found')
+        
         return place.to_dict(), 200
 
     @api.doc('update_place')
