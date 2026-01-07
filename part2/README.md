@@ -1,61 +1,63 @@
-#$#><<><><><$$ Part 2 $$><><><>><><<>#$#
+# HBnB Clone - Part 2
+
+><<><><><$$ Part 2 $$><><><>><><<>#$#
 ><<><><>Project Overview<><><<>><
-This is the second part of the HBnB (Holberton BnB) clone project, implementing a RESTful API for 
-a vacation rental platform similar to Airbnb. The application is built using Flask and follows a clean architecture 
-with clear separation between Presentation, 
-Business Logic, and Persistence layers.
+
+This is the second part of the HBnB (Holberton BnB) clone project, implementing a RESTful API for a vacation rental platform similar to Airbnb. The application is built using Flask and follows a clean architecture with clear separation between Presentation, Business Logic, and Persistence layers.
 
 ><><<><><Architecture><><><<><><>
-The project follows a modular architecture with three main layers:
 
-text
-presentation/         # API layer (Flask-RESTx)
-business_logic/       # Core business logic and models
-persistence/          # Data storage (in-memory for now)
-</\/\Key Design Patterns:
-Facade Pattern: Simplified interface to complex business logic
+The project follows a **modular architecture** with three main layers:
 
-Repository Pattern: Abstract data access layer
+presentation/ # API layer (Flask-RESTx)
+business_logic/ # Core business logic and models
+persistence/ # Data storage (in-memory for now)
 
-MVC-like Structure: Clear separation of concerns
+
+**Key Design Patterns:**
+- **Facade Pattern**: Simplified interface to complex business logic
+- **Repository Pattern**: Abstract data access layer  
+- **MVC-like Structure**: Clear separation of concerns
 
 ><<>><><<<></\/\+=-Quick Start-=+/\/\><><<><><<
 
-Prerequisites
-
-Python 3.8+
-pip (Python package manager)
+### Prerequisites
+- Python 3.8+
+- pip (Python package manager)
 
 <<<>><><>/\/\<Installation>/\/\<><><<<<>>>
 
-1-Clone and navigate to the project:
-cd holbertonschool-hbnb/part2
+1. **Clone and navigate to the project:**
+    bash
+    cd holbertonschool-hbnb/part2
+2. **Create and activate virtual environment:**
+    bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+3. **Install dependencies:**
+    pip install -r requirements.txt
+4. **Run the application:**
+    python run.py
+5. **Access the API:**
+    API Base URL: http://localhost:5000/api/v1
 
-2-Create and activate virtual environment:
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-3-Install dependencies:
-pip install -r requirements.txt
-
-4-Run the application:
-python run.py
-
-5-Access the API:
-API Base URL: http://localhost:5000/api/v1
 Swagger Documentation: http://localhost:5000/api/v1/docs/
+
 API Status: http://localhost:5000/api/v1/status
 
-><><><API Documentation><><><
+<><><API Documentation><><><
+
 For comprehensive API documentation including all endpoints, request/response formats, and examples, see:
 
 API_DOCUMENTATION.md
 
-><><></\/\�Testing /\/\><><><
+<><><//\ Testing //><><><
 
-#Run All Tests
+Run All Tests
+bash
 ./run_tests.sh
-
+Run Specific Tests
+bash
 # Run unit tests
 python -m unittest discover tests -v
 
@@ -64,8 +66,9 @@ python -m unittest tests.test_api
 Manual Testing with cURL
 See the testing examples in API_DOCUMENTATION.md or use the included run_tests.sh script.
 
-><=-=-> Project Structure <-=-=\><
+<=-=-> Project Structure <-=-=><
 
+text
 holbertonschool-hbnb/part2/
 ├── API_DOCUMENTATION.md     # Complete API documentation
 ├── README.md                # This file
@@ -104,9 +107,10 @@ holbertonschool-hbnb/part2/
     ├── test_api.py          # API tests
     ├── __init__.py
     └── __main__.py
+<><><>>>,,,<<\//\// Features Implemented \//\//\>>,,,>>><><><
 
-><><><>>>,,,<<\\//\\// Features Implemented \\//\\//\\>>,,,>>><><><
-><<><><></\/\/\| Core Business Models |/\/\/\><><><>><>
+<<><><><///| Core Business Models |///><><><>><>
+
 User: Platform users with email/password authentication
 
 Place: Rental properties with coordinates, pricing, and amenities
@@ -117,7 +121,8 @@ Amenity: Property features (WiFi, Pool, etc.)
 
 City & State: Geographical hierarchy
 
-><><><<'"'"'"API Endpoints"'"'"'><><><
+<><><<'"'"'"API Endpoints"'"'"'><><><
+
 Users: GET, POST, PUT operations
 
 Amenities: GET, POST, PUT operations
@@ -126,7 +131,8 @@ Places: GET, POST, PUT operations with relationship handling
 
 Reviews: GET, POST, PUT, DELETE operations (only entity with DELETE)
 
-><><><Validation & Error Handling><><><
+<><><Validation & Error Handling><><><
+
 Email format validation
 
 Password strength validation
@@ -139,7 +145,8 @@ Price validation (non-negative)
 
 Comprehensive error responses
 
-><><><:":",././\ Testing/\.\.,":":><><><
+<><><:":",././\ Testing/..,":":><><><
+
 Unit tests for all API endpoints
 
 Integration tests with cURL
@@ -148,7 +155,8 @@ Automated test script
 
 Edge case testing
 
-><><><[][]\\||Documentation||//[][]><><><
+<><><[][]\||Documentation||//[][]><><><
+
 Interactive Swagger UI
 
 Comprehensive API documentation
@@ -157,19 +165,20 @@ Clear usage examples
 
 Error code documentation
 
-><<>><><><</\||Configuration||\/>><><><<><
+<<>><><><</||Configuration||/>><><><<><
+
 The application supports multiple environments:
 
-Environment		Configuration File		Use Case
-Development		config.py (DevelopmentConfig)	Local development
-Testing			config.py (TestingConfig)	Running tests
-Production		config.py (ProductionConfig)	Production deployment
-
+Environment	Configuration File	Use Case
+Development	config.py (DevelopmentConfig)	Local development
+Testing	config.py (TestingConfig)	Running tests
+Production	config.py (ProductionConfig)	Production deployment
 Set environment variable to change config:
+
+bash
 export FLASK_CONFIG=testing  # For testing environment
+<""':(())>>><<Key Implementation Details>>><<<(()):'""><
 
-
-><""':(())>>><<Key Implementation Details>>><<<(()):'""><
 Security Features
 Passwords are never exposed in API responses
 
@@ -177,7 +186,7 @@ Email format validation
 
 Input sanitization on all endpoints
 
-#Relationship Handling
+Relationship Handling
 Places show owner details and amenities
 
 Reviews show user information
@@ -186,7 +195,7 @@ Cities belong to states
 
 Reviews are linked to both users and places
 
-#Data Integrity
+Data Integrity
 UUIDs for all entities
 
 Timestamps (created_at, updated_at)
@@ -195,8 +204,8 @@ Referential integrity checks
 
 Duplicate prevention
 
+<<>><><><Important Notes>><<>><><>
 
-><<>><><><Important Notes>><<>><><>
 Persistence: Currently uses in-memory storage. Data is lost on server restart.
 
 Authentication: Basic implementation. JWT/OAuth would be added in production.
@@ -207,8 +216,7 @@ File Uploads: Not implemented in this phase.
 
 Pagination: All list endpoints return all results (no pagination).
 
-
-><<>><><><Future Improvement><<>><><>><<>>
+<<>><><><Future Improvement><<>><><>><<>>
 
 Database Integration: Replace in-memory with SQLAlchemy + PostgreSQL
 
@@ -224,34 +232,49 @@ Booking System: Reservation management
 
 Payment Integration: Stripe/PayPal integration
 
-><<>><><>< Troubleshooting >><<>><><>
+<<>><><>< Troubleshooting >><<>><><>
+
 Common Issues:
 Port already in use:
-&*>Find and kill the process>*&
+
+bash
+# Find and kill the process
 lsof -ti:5000 | xargs kill -9
 Module import errors:
-&*Make sure you're in the right directory*&
+
+bash
+# Make sure you're in the right directory
 pwd  # Should show /path/to/holbertonschool-hbnb/part2
 
->><<>><<><>< Install dependencies<>><<>><<><><<
-^^*pip install -r requirements.txt*
-Permission denied on run_tests.sh*
+# Install dependencies
+pip install -r requirements.txt
+Permission denied on run_tests.sh:
 
->><<>><<><>< License>><<>><<><><
+bash
+chmod +x run_tests.sh
+<<>><<><>< License>><<>><<><><
+
 This project is part of the Holberton School curriculum.
 
->><<>><<><><Authors>><<>><<><><
-Developed as part of Holberton School's portfolio project 
+<<>><<><><Acknowledgments>><<>><<><><
 
->><<>><<><><Acknowledgments>><<>><<><><
 Holberton School mentors and peers
 
 Flask and Flask-RESTx communities
 
 REST API design best practices community
 
->><<>><<><Contributors>><<>><<><><
+<^>^<^>^<^>^<^>^<^>^<^>^<^>^
+👥 CONTRIBUTORS
+<^>^<^>^<^>^<^>^<^>^<^>^<^>^
 
->><<>><<><>< **Ahmed Khaled** - *Initial work* - [GitHub](https://github.com/ako11927)(><><
->><<>><<><>< **Rinad Fahad ** - *API Implementation* - [GitHub](https://github.com/Rinadfahadz)>><<>><<><><
->><<>><<><>< **Shadan Khaled** - *Testing & Documentation* - [GitHub](https://github.com/Shadan-khaled)>><<>><<><><
+✦ Ahmed Khaled - Full-stack implementation
+• GitHub: ako11927
+
+✦ Rinad Fahad - API endpoints & business logic
+• GitHub: Rinadf
+
+✦ Shadan Khaled - Testing & documentation
+• GitHub: ShadanKhaled
+
+
