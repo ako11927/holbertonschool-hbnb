@@ -1,19 +1,18 @@
 """API v1 routes configuration."""
+from flask import Blueprint
 from flask_restx import Api, Resource
-from .errors import default_error_handler, not_found_error_handler, bad_request_error_handler
 
-# Create main API instance
+# Create a blueprint for API v1
+blueprint = Blueprint('api_v1', __name__, url_prefix='/api/v1')
+
+# Create main API instance attached to the blueprint
 api = Api(
+    blueprint,
     version='1.0',
     title='HBnB API',
     description='HBnB API operations',
-    doc='/api/v1/docs'
+    doc='/docs'  # This will be at /api/v1/docs
 )
-
-# Register error handlers
-api.errorhandler(Exception)(default_error_handler)
-api.errorhandler(404)(not_found_error_handler)
-api.errorhandler(400)(bad_request_error_handler)
 
 # Import namespaces
 from .user_routes import api as user_ns
@@ -32,5 +31,4 @@ api.add_namespace(review_ns, path='/reviews')
 class Status(Resource):
     """API status endpoint."""
     def get(self):
-        """Get API status."""
         return {'status': 'OK', 'version': '1.0'}
