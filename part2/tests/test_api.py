@@ -24,8 +24,8 @@ class TestAPI(unittest.TestCase):
     def test_create_user(self):
         """Test user creation."""
         user_data = {
-            'email': 'test@example.com',
-            'password': 'password123',
+            'email': '11927@holbertonstudents.com',
+            'password': '123456',
             'first_name': 'John',
             'last_name': 'Doe'
         }
@@ -42,7 +42,7 @@ class TestAPI(unittest.TestCase):
         """Test user creation with invalid email."""
         user_data = {
             'email': 'invalid-email',
-            'password': 'password123',
+            'password': '123456',
             'first_name': 'John',
             'last_name': 'Doe'
         }
@@ -61,8 +61,8 @@ class TestAPI(unittest.TestCase):
         """Test retrieving a specific user."""
         # First create a user
         user_data = {
-            'email': 'get@example.com',
-            'password': 'password123',
+            'email': 'test2@holbertonstudents.com',
+            'password': '123456',
             'first_name': 'Jane',
             'last_name': 'Smith'
         }
@@ -80,8 +80,8 @@ class TestAPI(unittest.TestCase):
         """Test updating a user."""
         # First create a user
         user_data = {
-            'email': 'update@example.com',
-            'password': 'password123',
+            'email': 'test3@holbertonstudents.com',
+            'password': '123456',
             'first_name': 'Original',
             'last_name': 'Name'
         }
@@ -104,8 +104,8 @@ class TestAPI(unittest.TestCase):
         """Test place creation."""
         # First create a user
         user_data = {
-            'email': 'owner@example.com',
-            'password': 'password123',
+            'email': 'owner@holbertonstudents.com',
+            'password': '123456',
             'first_name': 'Owner',
             'last_name': 'User'
         }
@@ -121,14 +121,14 @@ class TestAPI(unittest.TestCase):
         # Create place
         place_data = {
             'user_id': user_id,
-            'name': 'Beautiful Apartment',
-            'description': 'A lovely apartment in the city center',
+            'name': 'Beautiful Apartment in Riyadh',
+            'description': 'A lovely apartment in Riyadh city center',
             'number_rooms': 2,
             'number_bathrooms': 1,
             'max_guest': 4,
             'price_by_night': 100.50,
-            'latitude': 40.7128,
-            'longitude': -74.0060,
+            'latitude': 24.7136,
+            'longitude': 46.6753,
             'city_id': city.id
         }
         
@@ -136,14 +136,14 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.data)
         self.assertEqual(data['name'], place_data['name'])
-        self.assertEqual(data['price_by_night'], '100.50')
+        self.assertEqual(float(data['price_by_night']), 100.50)
     
     def test_create_review(self):
         """Test review creation."""
         # Create user
         user_data = {
-            'email': 'reviewer@example.com',
-            'password': 'password123',
+            'email': 'reviewer@holbertonstudents.com',
+            'password': '123456',
             'first_name': 'Reviewer',
             'last_name': 'User'
         }
@@ -160,14 +160,14 @@ class TestAPI(unittest.TestCase):
         
         place = Place(
             user_id=user_id,
-            name='Review Place',
+            name='Review Place in Riyadh',
             city_id=city.id,
             number_rooms=1,
             number_bathrooms=1,
             max_guest=2,
             price_by_night=50.00,
-            latitude=40.7128,
-            longitude=-74.0060
+            latitude=24.7136,
+            longitude=46.6753
         )
         self.facade.place_repository.create(place)
         
@@ -175,7 +175,7 @@ class TestAPI(unittest.TestCase):
         review_data = {
             'user_id': user_id,
             'place_id': place.id,
-            'text': 'Great place!',
+            'text': 'Great place in Riyadh!',
             'rating': 5
         }
         
@@ -190,9 +190,9 @@ class TestAPI(unittest.TestCase):
         # Create review (simplified)
         from business_logic.models.review import Review
         review = Review(
-            user_id='test-user',
-            place_id='test-place',
-            text='Test review',
+            user_id='test-user-id',
+            place_id='test-place-id',
+            text='Test review for Riyadh apartment',
             rating=4
         )
         self.facade.review_repository.create(review)

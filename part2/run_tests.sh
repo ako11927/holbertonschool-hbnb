@@ -15,7 +15,7 @@ curl -X GET http://localhost:5000/api/v1/status
 echo -e "\n\n2. Testing user creation:"
 curl -X POST http://localhost:5000/api/v1/users/ \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "email=test@example.com&password=test123&first_name=Test&last_name=User"
+  -d "email=11927@holbertonstudents.com&password=123456&first_name=John&last_name=Doe"
 
 # Test getting all users
 echo -e "\n\n3. Testing get all users:"
