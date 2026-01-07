@@ -1,3 +1,5 @@
+from typing import Dict, Any, Optional, List
+
 """Models package."""
 from .base_model import BaseModel
 from .user import User

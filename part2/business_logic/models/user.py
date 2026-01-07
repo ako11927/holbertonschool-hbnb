@@ -1,6 +1,6 @@
 """User model representing a platform user."""
 import re
-from typing import Optional, List
+from typing import Dict, Any, Optional, List
 from .base_model import BaseModel
 from ..exceptions import ValidationError
 
