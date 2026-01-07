@@ -9,7 +9,6 @@ from .user_routes import api as user_ns
 from .amenity_routes import api as amenity_ns
 from .place_routes import api as place_ns
 from .review_routes import api as review_ns
-from .errors import api as error_ns
 
 # Add all namespaces
 api.add_namespace(user_ns, path='/users')
