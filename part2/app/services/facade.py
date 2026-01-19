@@ -43,3 +43,30 @@ class HBnBFacade:
         # Update the user
         user.update(user_data)
         return user
+
+    # Amenity methods
+    def create_amenity(self, amenity_data):
+        """Create a new amenity."""
+        from app.models.amenity import Amenity
+        amenity = Amenity(**amenity_data)
+        self.amenity_repo.add(amenity)
+        return amenity
+
+    def get_amenity(self, amenity_id):
+        """Get amenity by ID."""
+        return self.amenity_repo.get(amenity_id)
+
+    def get_all_amenities(self):
+        """Get all amenities."""
+        return self.amenity_repo.get_all()
+
+    def update_amenity(self, amenity_id, amenity_data):
+        """Update amenity information."""
+        # First get the amenity
+        amenity = self.amenity_repo.get(amenity_id)
+        if not amenity:
+            return None
+        
+        # Update the amenity
+        amenity.update(amenity_data)
+        return amenity

@@ -11,8 +11,11 @@ def create_app():
               description='HBnB Application API',
               doc='/api/v1/')
     
-    # Register users namespace
+    # Register namespaces
     from .api.v1.users import api as users_ns
+    from .api.v1.amenities import api as amenities_ns
+    
     api.add_namespace(users_ns, path='/api/v1/users')
+    api.add_namespace(amenities_ns, path='/api/v1/amenities')
     
     return app
