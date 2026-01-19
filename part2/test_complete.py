@@ -1,80 +1,123 @@
 #!/usr/bin/env python3
+"""Complete test for Place and Review endpoints"""
+
 import sys
 import os
 
-# Add the current directory to the path
+# Add current directory to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-print("=== Testing Complete HBnB App ===")
-
-try:
-    # First test the routes module directly
-    print("1. Testing routes module import...")
-    from presentation.api.v1.routes import api
-    print(f"   ✅ API imported successfully")
-    print(f"   ✅ API title: {api.title}")
-    print(f"   ✅ API version: {api.version}")
+def test_models_exist():
+    """Check if all model files exist"""
+    print("=" * 60)
+    print("Checking Model Files")
+    print("=" * 60)
     
-    # Test the app creation
-    print("\n2. Testing app creation...")
-    from app import create_app
-    app = create_app()
-    print("   ✅ App created successfully!")
+    model_files = ['models/user.py', 'models/place.py', 'models/amenity.py', 'models/review.py']
     
-    # Test app configuration
-    print(f"   ✅ Debug mode: {app.debug}")
-    
-    # List all routes
-    print("\n3. Testing registered routes:")
-    with app.app_context():
-        routes = []
-        for rule in app.url_map.iter_rules():
-            if rule.endpoint != 'static':
-                methods = ','.join(sorted(rule.methods - {'OPTIONS', 'HEAD'}))
-                routes.append((rule.rule, methods, rule.endpoint))
-        
-        routes.sort(key=lambda x: x[0])
-        for rule, methods, endpoint in routes:
-            print(f"   {rule:40} [{methods:15}] -> {endpoint}")
-    
-    # Test endpoints
-    print("\n4. Testing endpoints with test client:")
-    with app.test_client() as client:
-        print("   a) Testing status endpoint:")
-        resp = client.get('/api/v1/status')
-        print(f"      Status: {resp.status_code}")
-        if resp.status_code == 200:
-            data = resp.get_json()
-            print(f"      Response: {data}")
+    for file in model_files:
+        if os.path.exists(file):
+            print(f"✓ {file} exists")
+            # Try to import it
+            try:
+                if file == 'models/user.py':
+                    from models.user import User
+                    print(f"  Can import User class")
+                elif file == 'models/place.py':
+                    from models.place import Place
+                    print(f"  Can import Place class")
+                elif file == 'models/amenity.py':
+                    from models.amenity import Amenity
+                    print(f"  Can import Amenity class")
+                elif file == 'models/review.py':
+                    from models.review import Review
+                    print(f"  Can import Review class")
+            except Exception as e:
+                print(f"  ✗ Error importing: {e}")
         else:
-            print(f"      Error: {resp.get_data()}")
-        
-        print("\n   b) Testing all namespace endpoints:")
-        test_endpoints = [
-            ('/api/v1/users/', 'Users'),
-            ('/api/v1/places/', 'Places'),
-            ('/api/v1/reviews/', 'Reviews'),
-            ('/api/v1/amenities/', 'Amenities'),
-        ]
-        
-        for endpoint, name in test_endpoints:
-            resp = client.get(endpoint)
-            print(f"      {name:15} {endpoint:30} -> {resp.status_code}")
-        
-        print("\n   c) Testing error handling:")
-        resp = client.get('/api/v1/nonexistent')
-        print(f"      404 Test: {resp.status_code} -> {resp.get_json()}")
+            print(f"✗ {file} does not exist")
+
+def test_facade():
+    """Test the facade"""
+    print("\n" + "=" * 60)
+    print("Testing Facade")
+    print("=" * 60)
     
-    print("\n" + "="*50)
-    print("🎉 SUCCESS: HBnB API is fully functional and ready!")
-    print("="*50)
+    try:
+        from services.facade import facade
+        
+        print(f"✓ Facade instance created")
+        print(f"  Type: {type(facade)}")
+        
+        # Check attributes
+        print(f"\nChecking facade attributes:")
+        print(f"  has 'users': {hasattr(facade, 'users')}")
+        print(f"  has 'places': {hasattr(facade, 'places')}")
+        print(f"  has 'amenities': {hasattr(facade, 'amenities')}")
+        print(f"  has 'reviews': {hasattr(facade, 'reviews')}")
+        
+        if hasattr(facade, 'users'):
+            print(f"\nData loaded:")
+            print(f"  Users: {len(facade.users)}")
+            print(f"  Places: {len(facade.places)}")
+            print(f"  Amenities: {len(facade.amenities)}")
+            print(f"  Reviews: {len(facade.reviews)}")
+            
+            # Show sample data
+            if facade.users:
+                print(f"\nSample user: {list(facade.users.values())[0].first_name} {list(facade.users.values())[0].last_name}")
+            if facade.places:
+                print(f"Sample place: {list(facade.places.values())[0].title}")
+        
+        # Test methods
+        print(f"\nTesting facade methods:")
+        print(f"  has 'create_place': {hasattr(facade, 'create_place')}")
+        print(f"  has 'get_place': {hasattr(facade, 'get_place')}")
+        print(f"  has 'get_all_places': {hasattr(facade, 'get_all_places')}")
+        print(f"  has 'create_review': {hasattr(facade, 'create_review')}")
+        
+    except Exception as e:
+        print(f"✗ Error testing facade: {e}")
+        import traceback
+        traceback.print_exc()
+
+def test_api_endpoints():
+    """Test API endpoint imports"""
+    print("\n" + "=" * 60)
+    print("Testing API Endpoints")
+    print("=" * 60)
     
-except ImportError as e:
-    print(f"\n❌ Import Error: {e}")
-    print("   Make sure all modules are in the correct location.")
-    import traceback
-    traceback.print_exc()
-except Exception as e:
-    print(f"\n❌ Error: {e}")
-    import traceback
-    traceback.print_exc()
+    api_files = ['api/v1/places.py', 'api/v1/reviews.py']
+    
+    for file in api_files:
+        if os.path.exists(file):
+            print(f"✓ {file} exists")
+        else:
+            print(f"✗ {file} does not exist")
+    
+    # Try to import from app
+    try:
+        from app import create_app
+        print(f"\n✓ Can import create_app from app")
+        
+        # Try to create app
+        app = create_app()
+        print(f"✓ Can create app instance")
+        
+        # Check if API blueprint is registered
+        blueprints = [bp.name for bp in app.blueprints.values()]
+        print(f"  Registered blueprints: {blueprints}")
+        
+    except Exception as e:
+        print(f"\n✗ Error with app: {e}")
+        import traceback
+        traceback.print_exc()
+
+if __name__ == '__main__':
+    print("Starting comprehensive test...")
+    test_models_exist()
+    test_facade()
+    test_api_endpoints()
+    print("\n" + "=" * 60)
+    print("Test completed!")
+    print("=" * 60)

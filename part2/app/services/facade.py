@@ -70,3 +70,30 @@ class HBnBFacade:
         # Update the amenity
         amenity.update(amenity_data)
         return amenity
+
+    # Place methods
+    def create_place(self, place_data):
+        """Create a new place."""
+        from app.models.place import Place
+        place = Place(**place_data)
+        self.place_repo.add(place)
+        return place
+
+    def get_place(self, place_id):
+        """Get place by ID."""
+        return self.place_repo.get(place_id)
+
+    def get_all_places(self):
+        """Get all places."""
+        return self.place_repo.get_all()
+
+    def update_place(self, place_id, place_data):
+        """Update place information."""
+        # First get the place
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+        
+        # Update the place
+        place.update(place_data)
+        return place
