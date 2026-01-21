@@ -16,7 +16,7 @@
 6. [API Specifications](#api-specifications)
 7. [Design Patterns Used](#design-patterns-used)
 8. [Business Rules Summary](#business-rules-summary)
-
+  
 ---
 
 ## Executive Summary
