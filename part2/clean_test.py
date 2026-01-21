@@ -6,7 +6,7 @@ from flask_restx import Api, Resource
 # Create minimal app
 app = Flask(__name__)
 api = Api(app)
-
+ 
 @api.route('/test')
 class Test(Resource):
     def get(self):
