@@ -1,36 +1,45 @@
-"""Amenity model for HBnB."""
-import uuid
-from datetime import datetime
+"""Amenity model with relationships."""
+from app import db
+from app.models.base_model import BaseModel
+from sqlalchemy.orm import validates
+from app.models import place_amenities  # Import association table
 
-class Amenity:
-    """Amenity class representing an amenity in the system."""
+
+class Amenity(BaseModel):
+    """Amenity model representing a property amenity."""
+    __tablename__ = 'amenities'
     
-    def __init__(self, **kwargs):
-        """Initialize a new Amenity instance."""
-        self.id = str(uuid.uuid4())
-        self.name = kwargs.get('name', '')
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        
-        # Set additional attributes if provided
-        for key, value in kwargs.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
+    # Core attribute
+    name = db.Column(db.String(50), unique=True, nullable=False)
     
-    def update(self, data):
-        """Update amenity attributes."""
-        if 'name' in data:
-            self.name = data['name']
-        self.updated_at = datetime.now()
+    # Relationships
+    # Many-to-Many: Amenity <-> Places (an amenity can be in many places)
+    places = db.relationship('Place', secondary=place_amenities,
+                           back_populates='amenities', lazy=True)
+    
+    @validates('name')
+    def validate_name(self, key, name):
+        """Validate amenity name."""
+        if not name or not name.strip():
+            raise ValueError("Amenity name is required")
+        if len(name.strip()) < 2:
+            raise ValueError("Amenity name must be at least 2 characters")
+        return name.strip()
     
     def to_dict(self):
-        """Convert amenity to dictionary."""
+        """Convert amenity object to dictionary."""
         return {
             'id': self.id,
             'name': self.name,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
     
+    def to_dict_with_relationships(self):
+        """Convert amenity object to dictionary with relationships."""
+        result = self.to_dict()
+        result['places_count'] = len(self.places) if self.places else 0
+        return result
+    
     def __repr__(self):
-        return f"<Amenity {self.id}: {self.name}>"
+        return f'<Amenity {self.name}>'

@@ -1,87 +1,83 @@
-"""Review model for user reviews of places."""
-from typing import Dict, Any
-from datetime import datetime
-from .base_model import BaseModel
-from ..exceptions import ValidationError
+"""Review model with relationships."""
+from app import db
+from app.models.base_model import BaseModel
+from sqlalchemy.orm import validates
 
 
 class Review(BaseModel):
-    """
-    Review model representing a user's review of a place.
+    """Review model representing a user review."""
+    __tablename__ = 'reviews'
     
-    Attributes:
-        user_id (str): ID of the user who wrote the review
-        place_id (str): ID of the place being reviewed
-        text (str): Review text content
-        rating (int): Rating from 1 to 5
-    """
+    # Core attributes
+    text = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
     
-    def __init__(self, **kwargs):
-        """
-        Initialize review with validation.
-        
-        Args:
-            **kwargs: Review attributes including:
-                user_id: Required
-                place_id: Required
-                text: Optional review text
-                rating: Required, between 1 and 5
-        """
-        super().__init__(**kwargs)
-        self.user_id = kwargs.get('user_id', '')
-        self.place_id = kwargs.get('place_id', '')
-        self.text = kwargs.get('text', '')
-        self.rating = kwargs.get('rating', 0)
-        
-        # Validate required fields
-        if not self.user_id:
-            raise ValidationError("user_id is required")
-        if not self.place_id:
-            raise ValidationError("place_id is required")
-        
-        # Validate rating
-        if self.rating < 1 or self.rating > 5:
-            raise ValidationError("Rating must be between 1 and 5")
+    # Foreign Keys
+    # One-to-Many: User -> Reviews (a review is written by one user)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     
-    @property
-    def rating(self) -> int:
-        """Get rating."""
-        return self._rating
+    # One-to-Many: Place -> Reviews (a review is for one place)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
     
-    @rating.setter
-    def rating(self, value: int):
-        """Set rating with validation."""
-        value = int(value)
-        if value < 1 or value > 5:
-            raise ValidationError("Rating must be between 1 and 5")
-        self._rating = value
-        self.save()
+    # Relationships
+    # Many-to-One: Review -> User (a review belongs to one user)
+    user = db.relationship('User', back_populates='reviews')
     
-    @property
-    def summary(self) -> str:
-        """
-        Get a summary of the review.
-        
-        Returns:
-            Summary string
-        """
-        if not self.text:
-            return f"Rating: {self.rating}/5"
-        
-        # Get first 100 characters for summary
-        summary_text = self.text[:100]
-        if len(self.text) > 100:
-            summary_text += "..."
-        return f"Rating: {self.rating}/5 - {summary_text}"
+    # Many-to-One: Review -> Place (a review belongs to one place)
+    place = db.relationship('Place', back_populates='reviews')
     
-    def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert review to dictionary.
+    @validates('text')
+    def validate_text(self, key, text):
+        """Validate review text."""
+        if not text or not text.strip():
+            raise ValueError("Review text is required")
+        if len(text.strip()) < 10:
+            raise ValueError("Review text must be at least 10 characters")
+        return text.strip()
+    
+    @validates('rating')
+    def validate_rating(self, key, rating):
+        """Validate rating (1-5)."""
+        if rating is None:
+            raise ValueError("Rating is required")
         
-        Returns:
-            Dictionary representation
-        """
-        result = super().to_dict()
-        # Add derived attributes
-        result['summary'] = self.summary
+        try:
+            rating_int = int(rating)
+            if rating_int < 1 or rating_int > 5:
+                raise ValueError("Rating must be between 1 and 5")
+            return rating_int
+        except (ValueError, TypeError):
+            raise ValueError("Rating must be a valid integer between 1 and 5")
+    
+    def to_dict(self):
+        """Convert review object to dictionary."""
+        return {
+            'id': self.id,
+            'text': self.text,
+            'rating': self.rating,
+            'user_id': self.user_id,
+            'place_id': self.place_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }
+    
+    def to_dict_with_relationships(self):
+        """Convert review object to dictionary with relationships."""
+        result = self.to_dict()
+        
+        # Include user information
+        if self.user:
+            result['user'] = self.user.to_dict_without_email()
+        
+        # Include place information
+        if self.place:
+            result['place'] = {
+                'id': self.place.id,
+                'title': self.place.title,
+                'city': self.place.city
+            }
+        
         return result
+    
+    def __repr__(self):
+        return f'<Review {self.rating} stars>'
