@@ -20,7 +20,7 @@ class Place:
                 setattr(self, key, value)
     
     def update(self, data):
-        """Update the  place attributes."""
+        """Update place attributes."""
         updatable_fields = ['name', 'description', 'price_per_night']
         for field in updatable_fields:
             if field in data:

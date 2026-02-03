@@ -1,6 +1,22 @@
-from app import create_app
+"Run file for HBnB application."
+import os
+from app import create_app, db
+from config import config
 
-app = create_app()
+# Determine environment, default to development
+env = os.environ.get("FLASK_ENV", "development")
+ConfigClass = config.get(env, config["default"])
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Create Flask app with selected configuration
+app = create_app(ConfigClass)
+
+# Initialize database tables
+with app.app_context():
+    db.create_all()
+    print(f"Database tables created for {env} environment.")
+
+if __name__ == "__main__":
+    # Run Flask server
+    app.run(host="0.0.0.0", port=5000)
+
+
