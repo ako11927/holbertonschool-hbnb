@@ -1,0 +1,7 @@
+Flask==2.3.3
+flask-restx==1.1.0
+flask-jwt-extended==4.6.0
+flask-bcrypt==1.0.1
+flask-sqlalchemy==3.1.1
+sqlalchemy>=2.0,<3
+werkzeug==2.3.8

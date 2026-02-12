@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - Place Details</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* تنسيق بسيط للأيقونات جنب الخدمات */
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #ecf0f1;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+        }
+        .amenity-icon {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="HBnB Logo" class="logo">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="place-details">
+            <div class="place-info">
+                <h2>Beautiful Beach House</h2>
+                <img src="https://via.placeholder.com/800x400/2c3e50/ffffff?text=Beach+House" alt="Beach House" style="width:100%; border-radius:10px; margin-bottom:1rem;">
+                <p class="place-host"><strong>Host:</strong> John Doe</p>
+                <p class="place-price"><strong>Price per night:</strong> $100</p>
+                <p class="place-description"><strong>Description:</strong> Enjoy this stunning beachfront house with direct access to the sand. Perfect for families and couples.</p>
+                <div class="place-amenities">
+                    <strong>Amenities:</strong>
+                    <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                        <li class="amenity-item">
+                            <img src="images/icon_bed.png" alt="Bed" class="amenity-icon">
+                            King size bed
+                        </li>
+                        <li class="amenity-item">
+                            <img src="images/icon_bath.png" alt="Bath" class="amenity-icon">
+                            Private bathroom
+                        </li>
+                        <li class="amenity-item">
+                            <img src="images/icon_wifi.png" alt="WiFi" class="amenity-icon">
+                            Free WiFi
+                        </li>
+                        <li class="amenity-item">
+                            <img src="images/icon_bed.png" alt="Bed" class="amenity-icon">
+                            Extra sofa bed
+                        </li>
+                        <li class="amenity-item">
+                            <img src="images/icon_bath.png" alt="Bath" class="amenity-icon">
+                            Hot tub
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <h2>Reviews</h2>
+            <!-- Review 1 -->
+            <div class="review-card">
+                <p class="review-user">Sarah M.</p>
+                <p class="review-rating">★★★★☆ (4/5)</p>
+                <p class="review-comment">Amazing location and very clean. Would definitely come back!</p>
+            </div>
+            <!-- Review 2 -->
+            <div class="review-card">
+                <p class="review-user">Alex T.</p>
+                <p class="review-rating">★★★★★ (5/5)</p>
+                <p class="review-comment">Perfect house for a weekend getaway. The host was super friendly.</p>
+            </div>
+            <!-- Add review button (user logged in) -->
+            <a href="add_review.html?place_id=1" class="btn" style="margin-top:1rem;">Add Review</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 HBnB. All rights reserved.</p>
+    </footer>
+</body>
+</html>
