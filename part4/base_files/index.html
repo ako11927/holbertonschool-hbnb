@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - Places</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="HBnB Logo" class="logo">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="filter">
+            <label for="price-filter">Max Price:</label>
+            <select id="price-filter">
+                <option value="all">All</option>
+                <option value="100">$100</option>
+                <option value="150">$150</option>
+                <option value="200">$200</option>
+                <option value="250">$250+</option>
+            </select>
+        </section>
+
+        <section id="places-list">
+            <!-- Place Card 1 -->
+            <div class="place-card">
+                <img src="https://via.placeholder.com/300x200/2c3e50/ffffff?text=Beach+House" alt="Beach House" class="place-image">
+                <h3 class="place-name">Beautiful Beach House</h3>
+                <p class="place-price">$100 per night</p>
+                <a href="place.html?id=1" class="details-button">View Details</a>
+            </div>
+            <!-- Place Card 2 -->
+            <div class="place-card">
+                <img src="https://via.placeholder.com/300x200/27ae60/ffffff?text=Cozy+Cabin" alt="Cozy Cabin" class="place-image">
+                <h3 class="place-name">Cozy Cabin</h3>
+                <p class="place-price">$150 per night</p>
+                <a href="place.html?id=2" class="details-button">View Details</a>
+            </div>
+            <!-- Place Card 3 -->
+            <div class="place-card">
+                <img src="https://via.placeholder.com/300x200/e67e22/ffffff?text=Modern+Apartment" alt="Modern Apartment" class="place-image">
+                <h3 class="place-name">Modern Apartment</h3>
+                <p class="place-price">$200 per night</p>
+                <a href="place.html?id=3" class="details-button">View Details</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 HBnB. All rights reserved.</p>
+    </footer>
+</body>
+</html>
